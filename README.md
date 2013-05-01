@@ -17,28 +17,25 @@ Issues:
 - Justifying text
 - What day of the week does the month start on
 
-
 Delivery:
 ruby cal.rb <month> <year>
 
-Tests:
-1.) Integration Tests
-
-Output of cal == my cal
-
+Integration Tests:
 asseert_equal(`cal 2 2012, `ruby cal.rb 2 2012`)
 
-Step 0)
-Create a Git repository (copy in the test unit used for LinkedLists) where rake will run.
 
-Step 1)
-Create Integration tests
-asseert_equal(`cal 2 2012, `ruby cal.rb 2 2012`)
+Things I still need to do
+-------------------------
 
-Step 2)
-Submit link to integration tests in Canvas
+Restrict year input to between 1800-3000
 
-TaskList:
-- Method to, format the Header (month and year)
-- Method to, returns days of the week
-- Method to,
+
+Things I would like to do
+-------------------------
+
+Accept no arguments, and get current month
+Accept month names as arguments
+Accept short month names as arguments
+Accept partial year and assume century
+Accept only year, Print whole Year
+Accept range of months and print range
