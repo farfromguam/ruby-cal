@@ -1,14 +1,65 @@
 class RubyCal
   attr_reader :month
   attr_reader :year
-  attr_reader :year_type
-  attr_reader :starting_day
-  attr_reader :week_numbers
-  attr_reader :render
+  attr_reader :l_2
+  attr_reader :l_3
+  attr_reader :l_4
+  attr_reader :l_5
+  attr_reader :l_6
+  attr_reader :l_7
 
-  def initialize (month, year)
-    @month = month.to_i
-    @year = year.to_i
+  def initialize (m, y)
+
+    if m.class == String
+      case m.downcase
+        when "jan", "january"
+          m = 1
+        when "feb", "february"
+          m = 2
+        when "mar", "march"
+          m = 3
+        when "apr", "april"
+          m = 4
+        when "may"
+          m = 5
+        when "jun", "june"
+          m = 6
+        when "jul", "july"
+          m = 7
+        when "aug", "august"
+          m = 8
+        when "sep", "sept", "september"
+          m = 9
+        when "oct", "october"
+          m = 10
+        when "nov", "november"
+          m = 11
+        when "dec", "necember"
+          m = 12
+        else
+          m = m.to_i
+        end
+    end
+
+    if m.class == Fixnum && (1..12) === m
+      @month = m
+    else
+      raise ArgumentError, "Cannot parse month"
+    end
+
+    y = y.to_i
+
+    if (1800..3000) === y
+      @year = y
+    elsif (00..99) === y
+      @year = 2000 + y
+    else
+      raise ArgumentError, "Year out of range"
+    end
+
+    #also run this...
+    week_numbers
+
   end
 
   def is_leap_year?
@@ -42,9 +93,16 @@ class RubyCal
     month_names[@month]
   end
 
-  def banner
-    month_year = "#{long_month_name} #{@year}".center(20).rstrip
-    return "#{month_year}\nSu Mo Tu We Th Fr Sa\n"
+  def m_y
+    "#{long_month_name} #{@year}".center(20).rstrip
+  end
+
+  def l_0
+    "#{long_month_name}".center(20)
+  end
+
+  def l_1
+    "Su Mo Tu We Th Fr Sa"
   end
 
   def starting_day
@@ -67,40 +125,84 @@ class RubyCal
     end
   end
 
+#----------Old Code-------------------
+
+  # def week_numbers
+  #   #assemble into array
+  #   wk_num_arr = ("01".."#{days_in_month}").to_a
+  #   starting_day.times do
+  #     wk_num_arr.unshift "\s\s"
+  #   end
+
+  #   #insert new line every 7
+  #   i = 1
+  #   x = wk_num_arr.length / 7
+  #   x.times do
+  #     wk_num_arr.insert((i*8)-1, "NL")
+  #     i += 1
+  #   end
+
+  #   #make up diffrence for a total of 6 newlines
+  #   (6 - x).times do
+  #     wk_num_arr.push "NL"
+  #   end
+
+  #   #manupulate as string
+  #   wk_num_str = wk_num_arr.join("\s")
+  #   wk_num_str.gsub!(/\s0/, "\s\s")
+  #   wk_num_str.gsub!(/01/, "\s1")
+  #   wk_num_str.gsub!(/\sNL\s/, "NL")
+  #   wk_num_str.gsub!(/\sNL/, "NL")
+  #   wk_num_str.gsub!(/NL/, "\n")
+
+  #   return wk_num_str
+  # end
+
+  # def render
+  #   return "#{banner}#{week_numbers}"
+  # end
+
+#----------------------------------
+
   def week_numbers
     #assemble into array
     wk_num_arr = ("01".."#{days_in_month}").to_a
+
+    #add blanks at the beginning
     starting_day.times do
       wk_num_arr.unshift "\s\s"
     end
 
-    #insert new line every 7
-    i = 1
-    x = wk_num_arr.length / 7
-    x.times do
-      wk_num_arr.insert((i*8)-1, "NL")
-      i += 1
+    #add blanks at end until total is 42
+    until wk_num_arr.length == 42
+      wk_num_arr.push "\s\s"
     end
 
-    #make up diffrence for a total of 5 new line
-    (6 - x).times do
-      wk_num_arr.push "NL"
+    #strip out leading 0's
+    wk_num_arr.each do |i|
+      i.gsub!(/0/, "\s") if i < "10"
     end
 
-    #manupulate as string
-    wk_num_str = wk_num_arr.join("\s")
-    wk_num_str.gsub!(/\s0/, "\s\s")
-    wk_num_str.gsub!(/01/, "\s1")
-    wk_num_str.gsub!(/\sNL\s/, "NL")
-    wk_num_str.gsub!(/\sNL/, "NL")
-    wk_num_str.gsub!(/NL/, "\n")
+    #chunk into blocks of 7
+    wk_line_2 = wk_num_arr[0, 7]
+    wk_line_3 = wk_num_arr[7, 7]
+    wk_line_4 = wk_num_arr[14, 7]
+    wk_line_5 = wk_num_arr[21, 7]
+    wk_line_6 = wk_num_arr[28, 7]
+    wk_line_7 = wk_num_arr[35, 7]
 
-    return wk_num_str
+    #make them strings and trim them up
+    @l_2 = wk_line_2.join("\s").rstrip
+    @l_3 = wk_line_3.join("\s").rstrip
+    @l_4 = wk_line_4.join("\s").rstrip
+    @l_5 = wk_line_5.join("\s").rstrip
+    @l_6 = wk_line_6.join("\s").rstrip
+    @l_7 = wk_line_7.join("\s").rstrip
+
   end
 
   def render
-    return "#{banner}#{week_numbers}"
+    return "#{m_y}\n#{l_1}\n#{l_2}\n#{l_3}\n#{l_4}\n#{l_5}\n#{l_6}\n#{l_7}\n"
   end
 
 end
-
