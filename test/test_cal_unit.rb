@@ -29,7 +29,7 @@ class CalUnitTest < Test::Unit::TestCase
 
   def test_1d_take_shorthand_arguments
     cal = RubyCal.new("Jan", "10")
-    # assert_equal(1, cal.month)
+    assert_equal(1, cal.month)
     assert_equal(2010, cal.year)
   end
 
@@ -60,17 +60,12 @@ class CalUnitTest < Test::Unit::TestCase
 
   def test_5a_month_year_banner
     cal = RubyCal.new(1, 2000)
-    assert_equal("    January 2000", cal.m_y)
+    assert_equal("    January 2000", cal.month_year)
   end
 
   def test_5b_month_banner
     cal = RubyCal.new(1, 2000)
-    assert_equal("Su Mo Tu We Th Fr Sa", cal.l_1)
-  end
-
-  def test_5a_week_days_banner
-    cal = RubyCal.new(1, 2000)
-    assert_equal("    January 2000", cal.m_y)
+    assert_equal("Su Mo Tu We Th Fr Sa", cal.week_days)
   end
 
   def test_6a_number_of_days_in_month
@@ -123,14 +118,28 @@ class CalUnitTest < Test::Unit::TestCase
     assert_equal(6, cal.starting_day)
   end
 
-  def test_8_format_days_of_month
+  def test_8_format_first_week_of_month
     cal = RubyCal.new(5, 2013)
-    assert_equal("          1  2  3  4", cal.l_2)
+    assert_equal("          1  2  3  4", cal.week_numbers[0])
   end
 
   def test_9_assemble_month_calendar
     cal = RubyCal.new(5, 2013)
-    # assert_equal("      May 2013\nSu Mo Tu We Th Fr Sa\n          1  2  3  4\n 5  6  7  8  9 10 11\n12 13 14 15 16 17 18\n19 20 21 22 23 24 25\n26 27 28 29 30 31\n\n", cal.render)
+    assert_equal("      May 2013\nSu Mo Tu We Th Fr Sa\n          1  2  3  4\n 5  6  7  8  9 10 11\n12 13 14 15 16 17 18\n19 20 21 22 23 24 25\n26 27 28 29 30 31\n\n", cal.render)
   end
+
+  def test_9a_assemble_year_calendar
+    cal = RubyCal.new(5, 2013)
+    assert_equal(
+     ["        May         ",
+      "Su Mo Tu We Th Fr Sa",
+      "          1  2  3  4",
+      " 5  6  7  8  9 10 11",
+      "12 13 14 15 16 17 18",
+      "19 20 21 22 23 24 25",
+      "26 27 28 29 30 31   ",
+      "                    "], cal.year_view_array)
+  end
+
 
 end
