@@ -85,23 +85,25 @@ class RubyCal
   end
 
   def starting_day
-    d, m, y = 1, @month, @year
-    #transmute month and year to zeller style
-    m = (m += 9) % 12
-    y = y - (m / 10)
-    #now the formula
-    (d + ((m + 1) * 26 / 10) + y + (y / 4) + 6 * (y / 100) + (y / 400)) % 7
+    m, y = @month, @year
+
+    if (m == 1) || (m == 2)
+      m = m + 12
+      y = y - 1
+    end
+
+    (((m + 1) * 26 / 10) + y + (y / 4) + 6 * (y / 100) + (y / 400)) % 7
   end
 
   def days_in_month
     case @month
-    when 1,3,5,7,8,10,12
-      31
-    when 2
-      is_leap_year? ? 29 : 28
-    else
-      30
-    end
+      when 1,3,5,7,8,10,12
+        31
+      when 2
+        is_leap_year? ? 29 : 28
+      else
+        30
+      end
   end
 
   def month_year

@@ -35,6 +35,14 @@ class CalIntegrationTest < Test::Unit::TestCase
     assert_equal(`cal 2 2400`, `ruby cal.rb 2 2400`)
   end
 
+  def test_8_returns_correct_july
+    assert_equal(`cal 7 2400`, `ruby cal.rb 7 2400`)
+  end
+
+  def test_9_returns_correct_dec
+    assert_equal(`cal 12 2013`, `ruby cal.rb 12 2013`)
+  end
+
   # def test_8_returns_current_month_with_no_input
   #   assert_equal(`cal`, `ruby cal.rb`)
   # end
