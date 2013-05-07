@@ -1,11 +1,8 @@
 require 'test/unit'
-require 'rcal.rb'
+require 'lib/Month.rb'
+require 'lib/Year.rb'
 
 class CalIntegrationTest < Test::Unit::TestCase
-
-  def test_0
-    assert_equal(true, true)
-  end
 
   def test_1_returns_single_month_with_28_days
     assert_equal(`cal 2 2013`, `ruby cal.rb 2 2013`)
@@ -43,8 +40,9 @@ class CalIntegrationTest < Test::Unit::TestCase
     assert_equal(`cal 12 2013`, `ruby cal.rb 12 2013`)
   end
 
-  # def test_8_returns_current_month_with_no_input
-  #   assert_equal(`cal`, `ruby cal.rb`)
+  # does not pass, the unix version of cal has trailing whitespace
+  # def test_10_returns_whole_year
+  #   assert_equal(`cal 2000`, `ruby cal.rb all 2000`)
   # end
 
 end
